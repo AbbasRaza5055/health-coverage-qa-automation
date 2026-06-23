@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coverage Application - Eligibility Intake (Demo)</title>
+</head>
+<body>
+  <h1>Health Coverage Application (Demo / Synthetic Data Only)</h1>
+
+  <form id="eligibility-form">
+    <label for="first-name-input">First Name</label>
+    <input type="text" id="first-name-input" name="firstName" />
+
+    <label for="last-name-input">Last Name</label>
+    <input type="text" id="last-name-input" name="lastName" />
+
+    <label for="family-size-input">Household / Family Size</label>
+    <input type="text" id="family-size-input" name="familySize" />
+
+    <label for="income-input">Annual Household Income ($)</label>
+    <input type="text" id="income-input" name="annualIncome" />
+
+    <button id="submit-eligibility-btn" type="button" onclick="evaluateEligibility()">
+      Check Eligibility
+    </button>
+  </form>
+
+  <div id="eligibility-result"></div>
+
+  <script>
+    const FPL_BASE = 15060;
+    const FPL_PER_ADDITIONAL_PERSON = 5380;
+    
+    // Default baseline rules
+    let MEDICAID_EXPANSION_CEILING_PCT = 138;
+    let SUBSIDY_CEILING_PCT = 400;
+
+    function fplForHousehold(familySize) {
+      return FPL_BASE + FPL_PER_ADDITIONAL_PERSON * (familySize - 1);
+    }
+
+    function evaluateEligibility() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Requirement 2: Parameterize rule thresholds via URL query strings
+      if (urlParams.has('medicaid')) MEDICAID_EXPANSION_CEILING_PCT = parseFloat(urlParams.get('medicaid'));
+      if (urlParams.has('subsidy')) SUBSIDY_CEILING_PCT = parseFloat(urlParams.get('subsidy'));
+
+      // Requirement 3: Allow simulating a broken UI rules engine via URL
+      const isBrokenMode = urlParams.get('broken') === 'true';
+
+      const rawFamilySize = document.getElementById('family-size-input').value;
+      const rawIncome = document.getElementById('income-input').value;
+
+      const familySize = parseInt(rawFamilySize, 10);
+      const income = parseFloat(rawIncome);
+
+      // Requirement 1: Robust negative & invalid-input validation
+      if (isNaN(familySize) || isNaN(income) || familySize < 1 || income < 0) {
+        document.getElementById('eligibility-result').innerText = 'Eligibility Result: INVALID_INPUT';
+        return;
+      }
+
+      const fpl = fplForHousehold(familySize);
+      const pctOfFpl = (income / fpl) * 100;
+
+      let result;
+      if (isBrokenMode) {
+        // BROKEN ENGINE LOGIC: Off-by-one bug using strictly less-than (<) instead of (<=)
+        if (pctOfFpl < MEDICAID_EXPANSION_CEILING_PCT) {
+          result = 'MEDICAID_ELIGIBLE';
+        } else if (pctOfFpl < SUBSIDY_CEILING_PCT) {
+          result = 'SUBSIDY_ELIGIBLE';
+        } else {
+          result = 'NOT_ELIGIBLE';
+        }
+      } else {
+        // NORMAL HAPPY-PATH LOGIC
+        if (pctOfFpl <= MEDICAID_EXPANSION_CEILING_PCT) {
+          result = 'MEDICAID_ELIGIBLE';
+        } else if (pctOfFpl <= SUBSIDY_CEILING_PCT) {
+          result = 'SUBSIDY_ELIGIBLE';
+        } else {
+          result = 'NOT_ELIGIBLE';
+        }
+      }
+
+      document.getElementById('eligibility-result').innerText =
+        'Eligibility Result: ' + result;
+    }
+  </script>
+</body>
+</html>

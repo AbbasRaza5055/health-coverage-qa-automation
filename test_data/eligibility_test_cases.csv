@@ -1,0 +1,42 @@
+test_id,first_name,last_name,family_size,annual_income,scenario,expected_eligibility
+TC001,James,Garcia,1,20632.2,"family_size=1, below 138% FPL boundary",MEDICAID_ELIGIBLE
+TC002,Aisha,Lopez,1,20782.8,"family_size=1, at 138% FPL boundary",MEDICAID_ELIGIBLE
+TC003,Carlos,Nguyen,1,20933.4,"family_size=1, above 138% FPL boundary",SUBSIDY_ELIGIBLE
+TC004,James,Smith,1,60089.4,"family_size=1, below 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC005,Priya,Garcia,1,60240.0,"family_size=1, at 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC006,Maria,Smith,1,60390.6,"family_size=1, above 400% FPL boundary",NOT_ELIGIBLE
+TC007,Carlos,Lopez,1,12048.0,"family_size=1, well within Medicaid band",MEDICAID_ELIGIBLE
+TC008,Maria,Lopez,1,37650.0,"family_size=1, well within subsidy band",SUBSIDY_ELIGIBLE
+TC009,Priya,Lopez,1,75300.0,"family_size=1, well above subsidy ceiling",NOT_ELIGIBLE
+TC010,Noah,Khan,2,28002.8,"family_size=2, below 138% FPL boundary",MEDICAID_ELIGIBLE
+TC011,Maria,Nguyen,2,28207.2,"family_size=2, at 138% FPL boundary",MEDICAID_ELIGIBLE
+TC012,Priya,Johnson,2,28411.6,"family_size=2, above 138% FPL boundary",SUBSIDY_ELIGIBLE
+TC013,Aisha,Nguyen,2,81555.6,"family_size=2, below 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC014,Carlos,Johnson,2,81760.0,"family_size=2, at 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC015,James,Smith,2,81964.4,"family_size=2, above 400% FPL boundary",NOT_ELIGIBLE
+TC016,Priya,Smith,2,16352.0,"family_size=2, well within Medicaid band",MEDICAID_ELIGIBLE
+TC017,David,Johnson,2,51100.0,"family_size=2, well within subsidy band",SUBSIDY_ELIGIBLE
+TC018,Aisha,Garcia,2,102200.0,"family_size=2, well above subsidy ceiling",NOT_ELIGIBLE
+TC019,Noah,Smith,4,42744.0,"family_size=4, below 138% FPL boundary",MEDICAID_ELIGIBLE
+TC020,Priya,Smith,4,43056.0,"family_size=4, at 138% FPL boundary",MEDICAID_ELIGIBLE
+TC021,Aisha,Johnson,4,43368.0,"family_size=4, above 138% FPL boundary",SUBSIDY_ELIGIBLE
+TC022,Carlos,Smith,4,124488.0,"family_size=4, below 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC023,Maria,Lopez,4,124800.0,"family_size=4, at 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC024,Aisha,Smith,4,125112.0,"family_size=4, above 400% FPL boundary",NOT_ELIGIBLE
+TC025,Carlos,Smith,4,24960.0,"family_size=4, well within Medicaid band",MEDICAID_ELIGIBLE
+TC026,Priya,Khan,4,78000.0,"family_size=4, well within subsidy band",SUBSIDY_ELIGIBLE
+TC027,Noah,Johnson,4,156000.0,"family_size=4, well above subsidy ceiling",NOT_ELIGIBLE
+TC028,Linh,Johnson,6,57485.2,"family_size=6, below 138% FPL boundary",MEDICAID_ELIGIBLE
+TC029,David,Lopez,6,57904.8,"family_size=6, at 138% FPL boundary",MEDICAID_ELIGIBLE
+TC030,Aisha,Smith,6,58324.4,"family_size=6, above 138% FPL boundary",SUBSIDY_ELIGIBLE
+TC031,Linh,Lopez,6,167420.4,"family_size=6, below 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC032,Linh,Brown,6,167840.0,"family_size=6, at 400% FPL boundary",SUBSIDY_ELIGIBLE
+TC033,Priya,Khan,6,168259.6,"family_size=6, above 400% FPL boundary",NOT_ELIGIBLE
+TC034,Carlos,Johnson,6,33568.0,"family_size=6, well within Medicaid band",MEDICAID_ELIGIBLE
+TC035,Maria,Lopez,6,104900.0,"family_size=6, well within subsidy band",SUBSIDY_ELIGIBLE
+TC036,Maria,Johnson,6,209800.0,"family_size=6, well above subsidy ceiling",NOT_ELIGIBLE
+TC037,Priya,Khan,1,-500.0,input validation: negative income,INVALID_INPUT
+TC038,James,Lopez,0,25000.0,input validation: zero family size,INVALID_INPUT
+TC039,David,Lopez,-2,30000.0,input validation: negative family size,INVALID_INPUT
+TC040,Noah,Patel,2,not_an_income,input validation: non-numeric income string,INVALID_INPUT
+TC041,Noah,Nguyen,two,40000.0,input validation: non-numeric family size string,INVALID_INPUT

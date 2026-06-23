@@ -1,0 +1,14 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest & Test Execution Caches
+.pytest_cache/
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# Virtual Environments (just in case you make one later)
+.venv/
